@@ -17,7 +17,7 @@ then
 	mv morecolors.inc sourcemod/scripting/include
 fi
 
-cp src sourcemod/scripting
-sourcemod/scripting/./compile.sh FFDuel.sp
+cp -r src/scripting/* sourcemod/scripting
+sourcemod/scripting/./compile.sh CSWare.sp
 mkdir -p build/sourcemod/plugins
-cp sourcemod/scripting/compiled/FFDuel.smx build/sourcemod/plugins
+cp sourcemod/scripting/compiled/CSWare.smx build/sourcemod/plugins

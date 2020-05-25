@@ -5,4 +5,4 @@
 #include <sdktools>
 #include <cstrike>
 
-#include "methodmaps/player.inc"
+#include "methodmaps/Player.inc"
