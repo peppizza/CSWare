@@ -30,8 +30,13 @@ methodmap Player __nullable__
         GivePlayerItem(this.client, weapon);
     }
 
-    public void SwitchTeams(int team)
+    public void KillPlayer()
     {
-        CS_SwitchTeam(this.client, team);
+        ForcePlayerSuicide(this.client);
+    }
+
+    public void RespawnPlayer()
+    {
+        CS_RespawnPlayer(this.client);
     }
 }

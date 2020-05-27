@@ -7,6 +7,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <cstrike>
+#include <sdkhooks>
 
 #include "methodmaps/Player.inc"
 
@@ -19,27 +20,25 @@ public Plugin myinfo =
     url = "https://github.com/peppizza/CSWare/"
 };
 
-public void OnPluginStart()
-{
-    HookEvent("bomb_planted", Event_BombPlanted);
-}
-
 public Action CS_OnBuyCommand(int client, const char[] weapon)
 {
     if (strcmp("tec9", weapon) == 0)
     {
-        return Plugin_Changed;
+        return Plugin_Handled;
     }
     return Plugin_Continue;
 }
 
-public void Event_BombPlanted(Event event, const char[] name, bool dontBroadcast)
+public void OnEntityCreated(int entity, const char[] classname)
 {
-    char clientname[MAX_NAME_LENGTH];
-    int client = event.GetInt("userid");
-    int site = event.GetInt("site");
-    client = GetClientOfUserId(client);
-    GetClientName(client, clientname, sizeof(clientname));
+    if (StrEqual(classname, "planted_c4"))
+        SDKHook(entity, SDKHook_Spawn, OnC4Spawn);
+}
 
-    PrintToChatAll("%s has planted the bomb at site index: %i", clientname, site);
+public Action OnC4Spawn(int c4)
+{
+    ConVar cvRestartGame = FindConVar("mp_restartgame");
+    cvRestartGame.IntValue = 1;
+    delete cvRestartGame;
+    return Plugin_Handled;
 }
